@@ -24,7 +24,7 @@ You can continue to your last lab assignment to add security with `JWT` to your 
 * Continue to your UI project and implement `signin` and `signup` functionality.
 * Make necessary changes in your UI project to communicate with backend server.
 	* Send the token in each request except for `signin` and `signup` functions.
-	* You can store the token `localStorage`.
+	* You can store the token in the`localStorage`.
 ### Technical Details
 ---
 * Use n-tier software architecture model.
