@@ -24,4 +24,5 @@ public class AwesomeUserDetailsService implements UserDetailsService {
         var userDetails = new AwesomeUserDetails(user);
         return userDetails;
     }
+
 }

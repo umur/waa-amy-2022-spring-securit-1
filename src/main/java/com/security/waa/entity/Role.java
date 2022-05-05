@@ -2,17 +2,15 @@ package com.security.waa.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "samples_id_seq", sequenceName = "samples_id_seq", initialValue = 10, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "samples_id_seq")
     private int id;
 
     private String role;
