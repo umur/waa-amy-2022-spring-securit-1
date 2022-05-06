@@ -17,9 +17,9 @@ VALUES (2, 2);
 INSERT INTO users_role (user_id, role_id)
 VALUES (3, 1);
 
-INSERT INTO product (id, name, price)
-VALUES (1, 'iPhone', 1200);
-INSERT INTO product (id, name, price)
-VALUES (2, 'iPad', 900);
-INSERT INTO product (id, name, price)
-VALUES (3, 'Pen', 5);
+INSERT INTO product (id, name, price, id_user)
+VALUES (1, 'iPhone', 1200, 2);
+INSERT INTO product (id, name, price, id_user)
+VALUES (2, 'iPad', 900, 2);
+INSERT INTO product (id, name, price, id_user)
+VALUES (3, 'Pen', 5, 2);

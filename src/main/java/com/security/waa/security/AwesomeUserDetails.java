@@ -19,10 +19,13 @@ public class AwesomeUserDetails implements UserDetails {
 
     private List<Role> roles;
 
+    private User user;
+
     public AwesomeUserDetails(User user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.roles = user.getRole();
+        this.user = user;
     }
 
     @Override
@@ -60,5 +63,9 @@ public class AwesomeUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

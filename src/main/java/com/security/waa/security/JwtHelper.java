@@ -10,7 +10,7 @@ import java.util.Map;
 public class JwtHelper {
     private final String secret = "top-secret";
 //    private final long expiration = 5 * 60 * 60 * 60;
-     private final long expiration = 10;
+     private final long expiration = 10 * 60 * 60;
 
     public String generateToken(String email) {
         return Jwts.builder()

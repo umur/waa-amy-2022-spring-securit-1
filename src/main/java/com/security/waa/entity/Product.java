@@ -1,5 +1,6 @@
 package com.security.waa.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,5 +16,8 @@ public class Product {
     private String name;
     private float price;
 
-
+    @JsonManagedReference
+    @OneToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 }

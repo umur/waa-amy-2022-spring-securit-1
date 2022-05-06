@@ -1,9 +1,13 @@
 package com.security.waa.controller;
 
 import com.security.waa.entity.Product;
+import com.security.waa.entity.User;
+import com.security.waa.security.AwesomeUserDetails;
 import com.security.waa.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +19,16 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public void save(@RequestBody Product p) {
-        productService.save(p);
+    public ResponseEntity<Product> save(@RequestBody Product p) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof AwesomeUserDetails) {
+            User user = ((AwesomeUserDetails) principal).getUser();
+            p.setUser(user);
+            productService.save(p);
+        }
+
+        return ResponseEntity.ok(p);
     }
 
     @GetMapping

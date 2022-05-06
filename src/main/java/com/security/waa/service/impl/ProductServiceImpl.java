@@ -3,12 +3,15 @@ package com.security.waa.service.impl;
 import com.security.waa.entity.Product;
 import com.security.waa.repository.ProductRepo;
 import com.security.waa.service.ProductService;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepo productRepo;

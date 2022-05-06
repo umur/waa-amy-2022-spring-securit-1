@@ -1,5 +1,6 @@
 package com.security.waa.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
@@ -26,4 +27,8 @@ public class User {
     @JoinTable
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> role;
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "user")
+    private Product product;
 }
