@@ -1,5 +1,6 @@
 package com.webshop.mapping.aspect;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -24,19 +25,9 @@ public class WaaOffensiveWord {
 
     private static Map<String,String> offensiveWords = new HashMap<>();
 
-    CacheLoader<String, String> loader= new CacheLoader<String, String>() {
-        @Override
-        public String load(String key) {
-            return key.toUpperCase();
-        }
-    };
-
-    LoadingCache<String, String> cache =  CacheBuilder.newBuilder()
-            .expireAfterWrite(30,TimeUnit.SECONDS)
-      .build(loader);
-
-
-    public static Map<String,UserOffensiveCount> userOffensiveCountMapper = new HashMap<>();
+    static Cache<String, UserOffensiveCount> userOffensiveCountMapper = CacheBuilder.newBuilder()
+                                                        .expireAfterAccess(30, TimeUnit.MINUTES)
+                                                        .build();
 
     static {
         offensiveWords.put("Spring","Spring");
@@ -58,8 +49,8 @@ public class WaaOffensiveWord {
                 for(String word: offensiveWords.values()){
                     if(ob.toString().contains(word)){
                         String username = httpServletRequest.getUserPrincipal().getName();
-                        if(userOffensiveCountMapper.containsKey(username)){
-                            var userOffensiveCount = userOffensiveCountMapper.get(username);
+                        if(userOffensiveCountMapper.getIfPresent(username)!=null){
+                            var userOffensiveCount = userOffensiveCountMapper.getIfPresent(username);
                             Duration duration = Duration.between(LocalDateTime.now(), userOffensiveCount.getLastRequest());
                             Integer totalCount = userOffensiveCount.getCount();
                             if(duration.toMinutes()<30 && userOffensiveCount.getCount()<5){

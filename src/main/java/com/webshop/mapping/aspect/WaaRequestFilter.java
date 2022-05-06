@@ -26,8 +26,8 @@ public class WaaRequestFilter {
     public Object logging(ProceedingJoinPoint jp) throws Throwable {
         if(httpServletRequest.getRequestURI().indexOf("/api/v1/uaa")==-1 && httpServletRequest.getMethod().equals("POST") && httpServletRequest.getHeader("Authorization")!=null){
             String username = httpServletRequest.getUserPrincipal().getName();
-            if(WaaOffensiveWord.userOffensiveCountMapper.containsKey(username) && WaaOffensiveWord.userOffensiveCountMapper.get(username).getCount() >=5){
-                UserOffensiveCount userOffensiveCount = WaaOffensiveWord.userOffensiveCountMapper.get(username);
+            if(WaaOffensiveWord.userOffensiveCountMapper.getIfPresent(username)!=null && WaaOffensiveWord.userOffensiveCountMapper.getIfPresent(username).getCount() >=5){
+                UserOffensiveCount userOffensiveCount = WaaOffensiveWord.userOffensiveCountMapper.getIfPresent(username);
                 if(userOffensiveCount.timeToWait()!=0){
                     throw new VulnerableRequestException(String.format("Max Bad Words Requests Limit has been Reached. You need wait for %s minutes.",userOffensiveCount.timeToWait()));
                 }
