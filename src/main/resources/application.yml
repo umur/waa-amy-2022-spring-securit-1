@@ -1,0 +1,22 @@
+
+spring:
+  application:
+    name: security
+  datasource:
+    password:
+    url: jdbc:mysql://localhost:3306/security
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+server:
+  port: 8080
