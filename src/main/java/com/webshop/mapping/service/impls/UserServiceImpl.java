@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
                             loginRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
-            System.out.println("Bad Credentials");
+            throw new RuntimeException("Bad Credentials");
         }
         final String accessToken = jwtHelper.generateToken(loginRequest.getEmail());
         final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getEmail());

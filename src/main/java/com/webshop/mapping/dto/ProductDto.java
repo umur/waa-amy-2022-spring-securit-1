@@ -1,14 +1,12 @@
 package com.webshop.mapping.dto;
 
 import com.webshop.mapping.domain.Category;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class ProductDto {
 
     private Long id;
