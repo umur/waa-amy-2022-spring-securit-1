@@ -1,4 +1,4 @@
-package com.pprajapati.springsecurity.exception;
+package com.pprajapati.springsecurity.exceptionHandler.exceptions;
 
 public class OffensiveWordException extends RuntimeException {
   public  OffensiveWordException(String message) {

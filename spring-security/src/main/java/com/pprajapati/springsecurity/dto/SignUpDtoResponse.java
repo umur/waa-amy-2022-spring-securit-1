@@ -1,4 +1,4 @@
-package com.pprajapati.springsecurity.model;
+package com.pprajapati.springsecurity.dto;
 
 import com.pprajapati.springsecurity.domain.User;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignUpResponse {
+public class SignUpDtoResponse {
   private User user;
 }

@@ -1,5 +1,7 @@
 package com.pprajapati.springsecurity.aspect;
 
+import com.pprajapati.springsecurity.domain.Product;
+import com.pprajapati.springsecurity.exceptionHandler.exceptions.OffensiveWordException;
 import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -22,7 +24,7 @@ public class OffensiveWordValidationAspect {
   private final HttpServletRequest httpServletRequest;
   public static Map<String, UserOffensiveCount> offensiveWordCount = new HashMap<>();
 
-  private final List<String> offensiveWords = List.of("spring", "dota");
+  private final List<String> offensiveWords = List.of("test", "testdata");
 
   @Pointcut(value = "execution(* com.pprajapati.springsecurity.controller..*(..))")
   public void controller() {
@@ -31,23 +33,38 @@ public class OffensiveWordValidationAspect {
   @Around("controller()")
   public Object logging(ProceedingJoinPoint jp) throws Throwable {
     if (httpServletRequest.getRequestURI().indexOf("/api/v1/uaa") == -1 && httpServletRequest.getMethod().equals("POST") || httpServletRequest.getMethod().equals("PUT")) {
-
       var user = httpServletRequest.getUserPrincipal().getName();
 
       var args = jp.getArgs();
+      int index = 0;
+      for (Object obj : args) {
 
-      for (Object ob : args) {
-        for (String s : offensiveWords) {
-          if (ob.toString().contains(s)) {
-            if (offensiveWordCount.containsKey(user)) {
+        for (String offenseWord : offensiveWords) {
+          if (obj.toString().contains(offenseWord)) {
+            Product p =((Product) obj);
+
+            p.setProductName(p.getProductName().replace(offenseWord,"****"));
+
+            if(offensiveWordCount.containsKey(user)){
               var userRequestCount = offensiveWordCount.get(user);
               var totalCount = userRequestCount.getCount();
               offensiveWordCount.put(user, new UserOffensiveCount(++totalCount, LocalDateTime.now()));
+              if (offensiveWordCount.get(user).getCount() >= 5) {
+                long timeOut = offensiveWordCount.get(user).timeOut();
+                if (timeOut > 0) {
+                  throw new OffensiveWordException("User has been banned");
+                }
+              }
             }else {
               offensiveWordCount.put(user, new UserOffensiveCount(1, LocalDateTime.now()));
             }
+
+            args[index] = p;
+            jp.proceed(args);
           }
+
         }
+        index++;
       }
 
     }

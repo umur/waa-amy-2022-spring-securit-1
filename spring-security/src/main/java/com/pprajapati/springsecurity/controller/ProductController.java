@@ -1,8 +1,10 @@
 package com.pprajapati.springsecurity.controller;
 
 import com.pprajapati.springsecurity.annotation.ExecutionTime;
+import com.pprajapati.springsecurity.annotation.OffensiveWordValidation;
 import com.pprajapati.springsecurity.domain.Product;
 import com.pprajapati.springsecurity.domain.User;
+import com.pprajapati.springsecurity.dto.ProductDtoResponse;
 import com.pprajapati.springsecurity.security.AuthUser;
 import com.pprajapati.springsecurity.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProductController {
   private final ProductService productService;
 
+  @OffensiveWordValidation
   @PostMapping
   public ResponseEntity<Product> save(@RequestBody Product p) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,8 +37,9 @@ public class ProductController {
 
   @ExecutionTime
   @GetMapping
-  public List<Product> getAll() {
-    return productService.getAll();
+  public ResponseEntity<List<ProductDtoResponse>> getAll() {
+    var products =  productService.getAll();
+    return ResponseEntity.ok().body(products);
   }
 
   @GetMapping("/{id}")

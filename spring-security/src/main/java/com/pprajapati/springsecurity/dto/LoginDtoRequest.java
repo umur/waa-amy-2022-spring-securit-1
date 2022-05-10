@@ -1,4 +1,4 @@
-package com.pprajapati.springsecurity.model;
+package com.pprajapati.springsecurity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class LoginDtoRequest {
   private String userName;
   private String password;
 }

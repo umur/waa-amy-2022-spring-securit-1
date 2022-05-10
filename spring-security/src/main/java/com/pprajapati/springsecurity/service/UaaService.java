@@ -1,11 +1,11 @@
 package com.pprajapati.springsecurity.service;
 
-import com.pprajapati.springsecurity.model.*;
+import com.pprajapati.springsecurity.dto.*;
 
 public interface UaaService {
-  LoginResponse login(LoginRequest loginRequest);
+  LoginDtoResponse login(LoginDtoRequest loginRequest);
 
-  LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+  LoginDtoResponse refreshToken(RefreshTokenDtoRequest refreshTokenRequest);
 
-  SignUpResponse signup(SignUpRequest signUpRequest);
+  SignUpDtoResponse signup(SignUpDtoRequest signUpRequest);
 }

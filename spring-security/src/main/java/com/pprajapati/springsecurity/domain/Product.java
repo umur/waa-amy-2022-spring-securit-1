@@ -1,13 +1,19 @@
 package com.pprajapati.springsecurity.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "products")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,10 +21,23 @@ public class Product {
 
   @Column(name = "product_name")
   private String productName;
-  private float price;
+  private double price;
 
-  @JsonManagedReference
-  @OneToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
+//  @JsonBackReference
   private User user;
+
+  @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//  @OneToMany
+//  @JoinColumn(name = "product_id")
+//  @JsonManagedReference
+  private List<Review> reviews;
+
+//  @ManyToMany(mappedBy = "products")
+  @ManyToMany
+  @JoinTable(name="categories_products",
+  joinColumns = @JoinColumn(name="product_id"),
+  inverseJoinColumns = @JoinColumn(name="category_id"))
+  private List<Category> categories;
 }

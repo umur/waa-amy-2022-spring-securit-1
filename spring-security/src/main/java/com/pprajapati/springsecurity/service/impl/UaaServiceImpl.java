@@ -2,7 +2,7 @@ package com.pprajapati.springsecurity.service.impl;
 
 import com.pprajapati.springsecurity.domain.Role;
 import com.pprajapati.springsecurity.domain.User;
-import com.pprajapati.springsecurity.model.*;
+import com.pprajapati.springsecurity.dto.*;
 import com.pprajapati.springsecurity.repo.RoleRepo;
 import com.pprajapati.springsecurity.repo.UserRepo;
 import com.pprajapati.springsecurity.security.helper.JwtHelper;
@@ -30,7 +30,7 @@ public class UaaServiceImpl implements UaaService {
   private final JwtHelper jwtHelper;
 
   @Override
-  public LoginResponse login(LoginRequest loginRequest) {
+  public LoginDtoResponse login(LoginDtoRequest loginRequest) {
     try {
       var result = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginRequest.getUserName(),
@@ -44,23 +44,23 @@ public class UaaServiceImpl implements UaaService {
 
     final String accessToken = jwtHelper.generateToken(loginRequest.getUserName());
     final String refreshToken = jwtHelper.generateRefreshToken(loginRequest.getUserName());
-    var loginResponse = new LoginResponse(accessToken, refreshToken);
+    var loginResponse = new LoginDtoResponse(accessToken, refreshToken);
     return loginResponse;
   }
 
   @Override
-  public LoginResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+  public LoginDtoResponse refreshToken(RefreshTokenDtoRequest refreshTokenRequest) {
     boolean isRefreshTokenValid = jwtHelper.validateToken(refreshTokenRequest.getRefreshToken());
     if (isRefreshTokenValid) {
       final String accessToken = jwtHelper.generateToken(jwtHelper.getSubject(refreshTokenRequest.getRefreshToken()));
-      var loginResponse = new LoginResponse(accessToken, refreshTokenRequest.getRefreshToken());
+      var loginResponse = new LoginDtoResponse(accessToken, refreshTokenRequest.getRefreshToken());
       return loginResponse;
     }
-    return new LoginResponse();
+    return new LoginDtoResponse();
   }
 
   @Override
-  public SignUpResponse signup(SignUpRequest signUpRequest) {
+  public SignUpDtoResponse signup(SignUpDtoRequest signUpRequest) {
     User user = new User();
     user.setUserName(signUpRequest.getUserName());
     user.setFirstName(signUpRequest.getFirstName());
@@ -76,6 +76,6 @@ public class UaaServiceImpl implements UaaService {
     user.setRole(roles);
 
     userRepo.save(user);
-    return new SignUpResponse(user);
+    return new SignUpDtoResponse(user);
   }
 }

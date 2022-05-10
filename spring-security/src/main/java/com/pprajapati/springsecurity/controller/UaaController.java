@@ -1,6 +1,6 @@
 package com.pprajapati.springsecurity.controller;
 
-import com.pprajapati.springsecurity.model.*;
+import com.pprajapati.springsecurity.dto.*;
 import com.pprajapati.springsecurity.service.UaaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +17,22 @@ public class UaaController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+  public ResponseEntity<?> login(@RequestBody LoginDtoRequest loginRequest) {
     try {
       var loginResponse = uaaService.login(loginRequest);
       return ResponseEntity.ok().body(loginResponse);
     } catch (Exception e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new LoginFailedResponse("Login failed"));
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new LoginFailedDtoResponse("Login failed"));
     }
   }
 
   @PostMapping("/refreshToken")
-  public LoginResponse refreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest){
+  public LoginDtoResponse refreshToken(@RequestBody RefreshTokenDtoRequest refreshTokenRequest){
     return uaaService.refreshToken(refreshTokenRequest);
   }
 
   @PostMapping("/signup")
-  public SignUpResponse signup(@RequestBody SignUpRequest signUpRequest) {
+  public SignUpDtoResponse signup(@RequestBody SignUpDtoRequest signUpRequest) {
     return uaaService.signup(signUpRequest);
   }
 }

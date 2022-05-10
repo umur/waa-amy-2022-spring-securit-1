@@ -2,6 +2,7 @@ package com.pprajapati.springsecurity.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -30,7 +31,7 @@ public class User {
   @ManyToMany(fetch = FetchType.EAGER)
   private List<Role> role;
 
-  @JsonBackReference
-  @OneToOne(mappedBy = "user")
-  private Product product;
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//  @JsonManagedReference
+  private List<Product> products;
 }
