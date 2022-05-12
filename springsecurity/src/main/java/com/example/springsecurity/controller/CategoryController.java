@@ -1,17 +1,22 @@
 package com.example.springsecurity.controller;
 
-import com.example.springsecurity.entity.Category;
-import com.example.springsecurity.service.CategoryService;
+
 import org.springframework.web.bind.annotation.*;
+import com.example.springsecurity.service.CategoryService;
+import com.example.springsecurity.entity.Category;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
+
+
+
     CategoryService categoryService;
 
     @GetMapping
+
     public List<Category> getCategories() {
         return categoryService.getCategories();
     }
