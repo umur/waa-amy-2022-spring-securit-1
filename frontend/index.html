@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+  <div>
+
+    <input id="email" type="text" />
+
+    <input id="password" type="password" />
+
+    <button type="button" onclick="handleLogin()">
+      Sign In
+    </button>
+
+    <p id="response">
+          
+    </p>
+    
+  </div>
+
+
+  <script>
+    async function handleLogin() {
+      let email = document.getElementById("email");
+      let password = document.getElementById("password");
+      let res = document.getElementById("response");
+      let mainDiv = document.getElementById("main-div");
+      let url = "http://localhost:8080/api/v1/uaa";
+
+      const response = await fetch(url, {
+        method: "POST", 
+        cache: "no-cache", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email.value,
+          password: password.value,
+        }), 
+      });
+
+      response.status == 200 ? response.json().then((a) => {
+        const tokenBack = JSON.stringify(a);
+        
+        mainDiv.style.display = 'none';
+        res.innerHTML += `<span>${tokenBack}</span>`
+      }) : res.innerHTML += "Error";
+     
+    }
+  </script>
+</body>
+
+</html>
